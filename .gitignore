@@ -23,5 +23,3 @@ dist/
 nbdist/
 .nb-gradle/
 
-### API keys ###
-/stripe.properties
