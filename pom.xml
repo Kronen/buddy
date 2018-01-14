@@ -39,6 +39,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- Logging Dependencies -->
+		<dependency>
+		    <groupId>ch.qos.logback</groupId>
+		    <artifactId>logback-classic</artifactId>
+		</dependency>
 
 		<!-- jQuery and Materialize -->
 		<dependency>
