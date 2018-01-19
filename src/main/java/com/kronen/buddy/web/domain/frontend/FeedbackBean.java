@@ -1,7 +1,11 @@
 package com.kronen.buddy.web.domain.frontend;
 
-public class FeedbackBean {
+import java.io.Serializable;
+
+public class FeedbackBean implements Serializable {
     
+    private static final long serialVersionUID = 1L;
+
     private String email;
     
     private String firstName;
@@ -41,4 +45,12 @@ public class FeedbackBean {
     public void setFeedback(String feedback) {
         this.feedback = feedback;
     }
+
+    @Override
+    public String toString() {
+	return "FeedbackBean [email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", feedback="
+		+ feedback + "]";
+    }
+    
+    
 }
