@@ -2,6 +2,8 @@ package com.kronen.buddy.web.domain.frontend;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
 public class FeedbackBean implements Serializable {
     
     private static final long serialVersionUID = 1L;
