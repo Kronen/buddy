@@ -24,3 +24,7 @@ main {
     color: white;
     cursor:pointer; 
 }
+
+.card-content i.activator:hover {
+	cursor: pointer;
+}
