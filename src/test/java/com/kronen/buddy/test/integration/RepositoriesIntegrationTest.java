@@ -24,7 +24,7 @@ import com.kronen.buddy.backend.persistence.repositories.RoleRepository;
 import com.kronen.buddy.backend.persistence.repositories.UserRepository;
 import com.kronen.buddy.common.enums.PlansEnum;
 import com.kronen.buddy.common.enums.RolesEnum;
-import com.kronen.buddy.common.utils.UsersUtils;
+import com.kronen.buddy.common.utils.UserUtils;
 
 
 @RunWith(SpringRunner.class)
@@ -69,7 +69,7 @@ public class RepositoriesIntegrationTest {
 	Plan basicPlan = createPlan();
 	basicPlan = planRepository.save(basicPlan);
 	
-	User basicUser = UsersUtils.createBasicUser();
+	User basicUser = UserUtils.createBasicUser();
 	basicUser.setPlan(basicPlan);
 	
 	Role basicRole = createRole(RolesEnum.BASIC);

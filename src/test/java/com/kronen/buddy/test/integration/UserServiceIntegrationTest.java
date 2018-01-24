@@ -17,7 +17,7 @@ import com.kronen.buddy.backend.persistence.domain.backend.UserRole;
 import com.kronen.buddy.backend.service.UserService;
 import com.kronen.buddy.common.enums.PlansEnum;
 import com.kronen.buddy.common.enums.RolesEnum;
-import com.kronen.buddy.common.utils.UsersUtils;
+import com.kronen.buddy.common.utils.UserUtils;
 
 
 @RunWith(SpringRunner.class)
@@ -29,7 +29,7 @@ public class UserServiceIntegrationTest {
         
     @Test
     public void createNewUser() {	
-	User basicUser = UsersUtils.createBasicUser();	
+	User basicUser = UserUtils.createBasicUser();	
 	Set<UserRole> userRoles = new HashSet<>();
 	userRoles.add(new UserRole(basicUser, new Role(RolesEnum.BASIC)));
 	
