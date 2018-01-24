@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.kronen.buddy.backend.persistence.domain.backend.Plan;
 
 @Repository
-public interface PlanRepository extends CrudRepository<Plan, Long> {
+public interface PlanRepository extends CrudRepository<Plan, Integer> {
 
 }

@@ -10,13 +10,15 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.kronen.buddy.common.enums.RolesEnum;
+
 @Entity
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @Id
-    private long id;
+    private int id;
     
     private String name;
     
@@ -24,12 +26,17 @@ public class Role implements Serializable {
     private Set<UserRole> userRoles = new HashSet<>();
     
     public Role() {}
+    
+    public Role(RolesEnum rolesEnum) {
+	this.id = rolesEnum.getId();
+	this.name = rolesEnum.getRoleName();
+    }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

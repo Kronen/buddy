@@ -5,23 +5,30 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.kronen.buddy.common.enums.PlansEnum;
+
 @Entity
 public class Plan implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @Id
-    private long id;
+    private int id;
     
     private String name;
     
     public Plan() {}
+    
+    public Plan(PlansEnum plansEnum) {
+	this.id = plansEnum.getId();
+	this.name = plansEnum.getPlanName();
+    }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

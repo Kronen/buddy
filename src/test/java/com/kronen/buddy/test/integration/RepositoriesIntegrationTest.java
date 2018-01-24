@@ -1,7 +1,7 @@
 package com.kronen.buddy.test.integration;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -11,8 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kronen.buddy.backend.persistence.domain.backend.Plan;
 import com.kronen.buddy.backend.persistence.domain.backend.Role;
@@ -21,15 +22,14 @@ import com.kronen.buddy.backend.persistence.domain.backend.UserRole;
 import com.kronen.buddy.backend.persistence.repositories.PlanRepository;
 import com.kronen.buddy.backend.persistence.repositories.RoleRepository;
 import com.kronen.buddy.backend.persistence.repositories.UserRepository;
+import com.kronen.buddy.common.enums.PlansEnum;
+import com.kronen.buddy.common.enums.RolesEnum;
+import com.kronen.buddy.common.utils.UsersUtils;
 
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@SpringBootTest
 public class RepositoriesIntegrationTest {
-    
-    private static final long BASIC_PLAN_ID = 1;
-
-    private static final long BASIC_ROLE_ID = 1;
 
     @Autowired
     private PlanRepository planRepository;
@@ -49,32 +49,33 @@ public class RepositoriesIntegrationTest {
     
     @Test
     public void createNewPlan() {
-	Plan basicPlan = createBasicPlan();
+	Plan basicPlan = createPlan();
 	planRepository.save(basicPlan);
-	Optional<Plan> retrievedPlan = planRepository.findById(BASIC_PLAN_ID);
-	assertTrue(retrievedPlan.isPresent());
+	Optional<Plan> retrievedPlan = planRepository.findById(PlansEnum.BASIC.getId());
+	assertThat(retrievedPlan.isPresent()).isTrue();
     }
     
     @Test
     public void createNewRole() {
-	Role basicRole = createBasicRole();
+	Role basicRole = createRole(RolesEnum.BASIC);
 	roleRepository.save(basicRole);
-	Optional<Role> retrievedRole = roleRepository.findById(BASIC_ROLE_ID);
-	assertTrue(retrievedRole.isPresent());
+	Optional<Role> retrievedRole = roleRepository.findById(RolesEnum.BASIC.getId());
+	assertThat(retrievedRole.isPresent()).isTrue();
     }
     
     @Test
+    @Transactional
     public void createNewUser() {
-	Plan basicPlan = createBasicPlan();
-	planRepository.save(basicPlan);
+	Plan basicPlan = createPlan();
+	basicPlan = planRepository.save(basicPlan);
 	
-	User basicUser = createBasicUser();
+	User basicUser = UsersUtils.createBasicUser();
 	basicUser.setPlan(basicPlan);
 	
+	Role basicRole = createRole(RolesEnum.BASIC);
+	
 	Set<UserRole> userRoles = new HashSet<>();
-	UserRole userRole = new UserRole();
-	userRole.setUser(basicUser);
-	userRole.setRole(createBasicRole());
+	UserRole userRole = new UserRole(basicUser, basicRole);
 	userRoles.add(userRole);
 	
 	basicUser.getUserRoles().addAll(userRoles);
@@ -86,45 +87,25 @@ public class RepositoriesIntegrationTest {
 	basicUser = userRepository.save(basicUser);
 	
 	Optional<User> newlyCreatedUser = userRepository.findById(basicUser.getId());
-	assertTrue(newlyCreatedUser.isPresent());
-	assertTrue(newlyCreatedUser.get().getId() != 0);
-	assertNotNull(newlyCreatedUser.get().getPlan());
+	assertThat(newlyCreatedUser.isPresent()).isTrue();
+	assertThat(newlyCreatedUser.get().getId() != 0).isTrue();
+	assertThat(newlyCreatedUser.get().getPlan()).isNotNull();
 	Set<UserRole> newlyCreatedUserUserRoles = newlyCreatedUser.get().getUserRoles();
-	assertNotNull(newlyCreatedUserUserRoles);
+	assertThat(newlyCreatedUserUserRoles).isNotNull();
 	for(UserRole ur : newlyCreatedUserUserRoles) {
-	    assertNotNull(ur.getRole());
-	    assertNotNull(ur.getRole().getId());
+	    assertThat(ur.getRole()).isNotNull();
+	    assertThat(ur.getRole().getId()).isNotNull();
 	}
 	
 	
     }
 
-    private Role createBasicRole() {
-	Role role = new Role();
-	role.setId(BASIC_ROLE_ID);
-	role.setName("ROLE_USER");
-	return role;
+    private Role createRole(RolesEnum rolesEnum) {
+	return new Role(rolesEnum);
     }
 
-    private Plan createBasicPlan() {
-	Plan plan = new Plan();
-	plan.setId(BASIC_PLAN_ID);
-	plan.setName("Basic");
-	return plan;
+    private Plan createPlan() {
+	return new Plan(PlansEnum.BASIC);
     }
     
-    private User createBasicUser() {
-	User user = new User();
-	user.setUsername("basicUser");
-	user.setPassword("secrets");
-	user.setFirstName("firstname");
-	user.setLastName("lastname");
-	user.setEmail("kronen@mail.com");
-	user.setPhoneNumber("666777888");
-	user.setCountry("ES");
-	user.setEnabled(true);
-	user.setDescription("A basic user");
-	user.setProfileImageUrl("https://www.images.com/basic_user.png");
-	return user;
-    }
 }
