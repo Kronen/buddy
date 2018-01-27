@@ -17,26 +17,26 @@ public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
+    public Role() {}
+    
     @Id
-    private int id;
+    private Integer id;
     
     private String name;
     
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserRole> userRoles = new HashSet<>();
     
-    public Role() {}
-    
     public Role(RolesEnum rolesEnum) {
 	this.id = rolesEnum.getId();
 	this.name = rolesEnum.getRoleName();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -60,7 +60,7 @@ public class Role implements Serializable {
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
-	result = prime * result + (int) (id ^ (id >>> 32));
+	result = prime * result + ((id == null) ? 0 : id.hashCode());
 	return result;
     }
 
@@ -68,10 +68,16 @@ public class Role implements Serializable {
     public boolean equals(Object obj) {
 	if (this == obj)
 	    return true;
-	if (obj == null || getClass() != obj.getClass())
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
 	    return false;
 	Role other = (Role) obj;
-	return id == other.id;
+	if (id == null) {
+	    if (other.id != null)
+		return false;
+	} else if (!id.equals(other.id))
+	    return false;
+	return true;
     }
-
 }

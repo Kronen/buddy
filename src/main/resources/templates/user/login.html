@@ -12,6 +12,7 @@
 						<div class="col s12 m10">
 							<div class="card-content white-text">
 								<p th:text="#{login.error.message}" />
+								<p th:if="${session[SPRING_SECURITY_LAST_EXCEPTION].message}" th:text="${session[SPRING_SECURITY_LAST_EXCEPTION].message}">Invalid credentials</p>
 							</div>
 						</div>
 						<div class="col s12 m2">

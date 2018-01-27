@@ -10,7 +10,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+
+import com.kronen.buddy.backend.service.UserSecurityService;
 
 @Configuration
 @EnableWebSecurity
@@ -18,6 +19,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private Environment env;
+    
+    @Autowired
+    private UserSecurityService userSecurityService;
 
     private static final String[] PUBLIC_MATCHERS = { 
 	    "/webjars/**", 
@@ -28,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    "/about/**", 
 	    "/contact/**", 
 	    "/error/**/*",
-	    "/console/**"
+	    "/h2-console/**"
     };
 
     @Override
@@ -52,11 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-	auth
-		.inMemoryAuthentication()
-		.passwordEncoder(NoOpPasswordEncoder.getInstance())
-		.withUser("user").password("password")
-		.roles("USER");
-	
+	auth.userDetailsService(userSecurityService);	
     }
+    
 }

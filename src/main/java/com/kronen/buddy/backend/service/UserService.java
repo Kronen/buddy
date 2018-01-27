@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kronen.buddy.backend.persistence.domain.backend.Plan;
+import com.kronen.buddy.backend.persistence.domain.backend.Role;
 import com.kronen.buddy.backend.persistence.domain.backend.User;
 import com.kronen.buddy.backend.persistence.domain.backend.UserRole;
 import com.kronen.buddy.backend.persistence.repositories.PlanRepository;
@@ -36,7 +37,8 @@ public class UserService {
 	
 	user.setPlan(plan);
 	for(UserRole userRole : userRoles) {
-	    roleRepository.save(userRole.getRole());
+	    Role role = roleRepository.save(userRole.getRole());
+	    userRole.setRole(role);
 	}
 	
 	user.getUserRoles().addAll(userRoles);

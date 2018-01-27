@@ -19,7 +19,7 @@ public class BuddyApplicationTests {
     
     @Test
     public void testMessageByLocaleService() {
-	String expected = "Materialize Starter Template";
+	String expected = "Buddy App";
 	String messageId = "index.main.callout";
 	String actual = i18NService.getMessage(messageId);
 	assertEquals("The actual and expected String don't match", expected, actual);

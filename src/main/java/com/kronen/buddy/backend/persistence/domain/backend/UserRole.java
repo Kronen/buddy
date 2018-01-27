@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,21 +15,31 @@ public class UserRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-    
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
-    private Role role;
-    
     public UserRole() {}
     
     public UserRole(User user, Role role) {
 	this.user = user;
 	this.role = role;
+    }
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public User getUser() {
@@ -50,8 +62,7 @@ public class UserRole implements Serializable {
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
-	result = prime * result + ((role == null) ? 0 : role.hashCode());
-	result = prime * result + ((user == null) ? 0 : user.hashCode());
+	result = prime * result + ((id == null) ? 0 : id.hashCode());
 	return result;
     }
 
@@ -64,15 +75,10 @@ public class UserRole implements Serializable {
 	if (getClass() != obj.getClass())
 	    return false;
 	UserRole other = (UserRole) obj;
-	if (role == null) {
-	    if (other.role != null)
+	if (id == null) {
+	    if (other.id != null)
 		return false;
-	} else if (!role.equals(other.role))
-	    return false;
-	if (user == null) {
-	    if (other.user != null)
-		return false;
-	} else if (!user.equals(other.user))
+	} else if (!id.equals(other.id))
 	    return false;
 	return true;
     }
