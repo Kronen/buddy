@@ -34,9 +34,9 @@ public class BuddyApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 	User user = UserUtils.createBasicUser();	
 	Set<UserRole> userRoles = new HashSet<>();
-	userRoles.add(new UserRole(user, new Role(RolesEnum.BASIC)));
+	userRoles.add(new UserRole(user, new Role(RolesEnum.PRO)));
 	LOG.debug("Creating user with username {}", user.getUsername());
-	userService.createUser(user, PlansEnum.BASIC, userRoles);
+	userService.createUser(user, PlansEnum.PRO, userRoles);
 	LOG.info("User {} created", user.getUsername());
     }
 }
