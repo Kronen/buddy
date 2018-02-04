@@ -3,6 +3,7 @@ package com.kronen.buddy.backend.service;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +29,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+    
     @Transactional
     public User createUser(User user, PlansEnum plansEnum, Set<UserRole> userRoles) {
+	String encriptedPassword = passwordEncoder.encode(user.getPassword());
+	user.setPassword(encriptedPassword);
+	
 	Plan plan = new Plan(plansEnum);
 	if(!planRepository.existsById(plansEnum.getId())) {
 	    plan = planRepository.save(plan);
