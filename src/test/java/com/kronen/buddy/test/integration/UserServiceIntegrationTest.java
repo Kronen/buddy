@@ -5,7 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,10 +28,15 @@ public class UserServiceIntegrationTest {
     
     @Autowired
     private UserService userService;
+    
+    @Rule public TestName testName = new TestName();
         
     @Test
-    public void createNewUser() {	
-	User basicUser = UserUtils.createBasicUser();	
+    public void createNewUser() {
+	String username = testName.getMethodName();
+	String email = testName.getMethodName() + "@buddy.com";
+	
+	User basicUser = UserUtils.createBasicUser(username, email);	
 	Set<UserRole> userRoles = new HashSet<>();
 	userRoles.add(new UserRole(basicUser, new Role(RolesEnum.BASIC)));
 	

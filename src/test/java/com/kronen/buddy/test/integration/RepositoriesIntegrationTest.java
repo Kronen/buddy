@@ -8,7 +8,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,6 +42,8 @@ public class RepositoriesIntegrationTest {
     @Autowired
     private UserRepository userRepository;
     
+    @Rule public TestName testName = new TestName();
+    
     @Before
     public void init() {
 	assertNotNull(planRepository);
@@ -66,7 +70,10 @@ public class RepositoriesIntegrationTest {
     @Test
     @Transactional
     public void createNewUser() {
-	User basicUser = createUser();
+	String username = testName.getMethodName();
+	String email = testName.getMethodName() + "@buddy.com";
+	
+	User basicUser = createUser(username, email);
 	
 	Optional<User> newlyCreatedUser = userRepository.findById(basicUser.getId());
 	assertThat(newlyCreatedUser.isPresent()).isTrue();
@@ -83,17 +90,20 @@ public class RepositoriesIntegrationTest {
     @Test
     @Transactional
     public void deleteUser() {
-	User basicUser = createUser();
+	String username = testName.getMethodName();
+	String email = testName.getMethodName() + "@buddy.com";
+	
+	User basicUser = createUser(username, email);
 	userRepository.delete(basicUser);
 	Optional<User> deletedUser = userRepository.findById(basicUser.getId());
 	assertThat(deletedUser.isPresent()).isFalse();
     }
 
-    private User createUser() {
+    private User createUser(String username, String email) {
 	Plan basicPlan = createPlan();
 	basicPlan = planRepository.save(basicPlan);
 	
-	User basicUser = UserUtils.createBasicUser();
+	User basicUser = UserUtils.createBasicUser(username, email);
 	basicUser.setPlan(basicPlan);
 	
 	Role basicRole = createRole(RolesEnum.BASIC);
