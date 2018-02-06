@@ -26,6 +26,7 @@ public class User implements Serializable, UserDetails {
     private static final long serialVersionUID = 1L;
     
     public User() {
+	super();
     }
 
     @Id
@@ -68,6 +69,31 @@ public class User implements Serializable, UserDetails {
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<UserRole> userRoles = new HashSet<>();
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<PasswordResetToken> passwordResetTokens = new HashSet<>();
+    
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+	Set<GrantedAuthority> authorities = new HashSet<>();
+	userRoles.forEach(ur -> authorities.add(new Authority(ur.getRole().getName())));
+	return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+	return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+	return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+	return true;
+    }
 
     public Long getId() {
 	return id;
@@ -181,26 +207,12 @@ public class User implements Serializable, UserDetails {
         this.userRoles = userRoles;
     }
     
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-	Set<GrantedAuthority> authorities = new HashSet<>();
-	userRoles.forEach(ur -> authorities.add(new Authority(ur.getRole().getName())));
-	return authorities;
+    public Set<PasswordResetToken> getPasswordResetTokens() {
+        return passwordResetTokens;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-	return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-	return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-	return true;
+    public void setPasswordResetTokens(Set<PasswordResetToken> passwordResetTokens) {
+        this.passwordResetTokens = passwordResetTokens;
     }
 
     @Override

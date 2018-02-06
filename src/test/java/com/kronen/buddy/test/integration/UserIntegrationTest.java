@@ -3,7 +3,6 @@ package com.kronen.buddy.test.integration;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -12,7 +11,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,26 +19,13 @@ import com.kronen.buddy.backend.persistence.domain.backend.Plan;
 import com.kronen.buddy.backend.persistence.domain.backend.Role;
 import com.kronen.buddy.backend.persistence.domain.backend.User;
 import com.kronen.buddy.backend.persistence.domain.backend.UserRole;
-import com.kronen.buddy.backend.persistence.repositories.PlanRepository;
-import com.kronen.buddy.backend.persistence.repositories.RoleRepository;
-import com.kronen.buddy.backend.persistence.repositories.UserRepository;
 import com.kronen.buddy.common.enums.PlansEnum;
 import com.kronen.buddy.common.enums.RolesEnum;
-import com.kronen.buddy.common.utils.UserUtils;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RepositoriesIntegrationTest {
-
-    @Autowired
-    private PlanRepository planRepository;
-    
-    @Autowired
-    private RoleRepository roleRepository;
-    
-    @Autowired
-    private UserRepository userRepository;
+public class UserIntegrationTest extends AbstractIntegrationTest {
     
     @Rule public TestName testName = new TestName();
     
@@ -69,11 +54,8 @@ public class RepositoriesIntegrationTest {
     
     @Test
     @Transactional
-    public void createNewUser() {
-	String username = testName.getMethodName();
-	String email = testName.getMethodName() + "@buddy.com";
-	
-	User basicUser = createUser(username, email);
+    public void createNewUser() {	
+	User basicUser = createUser(testName);
 	
 	Optional<User> newlyCreatedUser = userRepository.findById(basicUser.getId());
 	assertThat(newlyCreatedUser.isPresent()).isTrue();
@@ -89,42 +71,11 @@ public class RepositoriesIntegrationTest {
     
     @Test
     @Transactional
-    public void deleteUser() {
-	String username = testName.getMethodName();
-	String email = testName.getMethodName() + "@buddy.com";
-	
-	User basicUser = createUser(username, email);
+    public void deleteUser() {	
+	User basicUser = createUser(testName);
 	userRepository.delete(basicUser);
 	Optional<User> deletedUser = userRepository.findById(basicUser.getId());
 	assertThat(deletedUser.isPresent()).isFalse();
-    }
-
-    private User createUser(String username, String email) {
-	Plan basicPlan = createPlan();
-	basicPlan = planRepository.save(basicPlan);
-	
-	User basicUser = UserUtils.createBasicUser(username, email);
-	basicUser.setPlan(basicPlan);
-	
-	Role basicRole = createRole(RolesEnum.BASIC);
-	roleRepository.save(basicRole);
-	
-	Set<UserRole> userRoles = new HashSet<>();
-	UserRole userRole = new UserRole(basicUser, basicRole);
-	userRoles.add(userRole);
-	
-	basicUser.getUserRoles().addAll(userRoles);
-	basicUser = userRepository.save(basicUser);
-	
-	return basicUser;
-    }
-
-    private Role createRole(RolesEnum rolesEnum) {
-	return new Role(rolesEnum);
-    }
-
-    private Plan createPlan() {
-	return new Plan(PlansEnum.BASIC);
     }
     
 }
