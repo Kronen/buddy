@@ -1,5 +1,7 @@
 package com.kronen.buddy.backend.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,11 +19,11 @@ public class UserSecurityService implements UserDetailsService {
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-	User user = userRepository.findByUsername(username);
-	if(user == null) {
+	Optional<User> user = userRepository.findByUsername(username);
+	if(!user.isPresent()) {
 	    throw new UsernameNotFoundException("Username " + username + " not found");
 	}
-	return user;
+	return user.get();
     }
     
 }

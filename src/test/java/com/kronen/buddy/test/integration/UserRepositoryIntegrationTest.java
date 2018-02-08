@@ -25,7 +25,7 @@ import com.kronen.buddy.common.enums.RolesEnum;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserIntegrationTest extends AbstractIntegrationTest {
+public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     
     @Rule public TestName testName = new TestName();
     
@@ -55,9 +55,9 @@ public class UserIntegrationTest extends AbstractIntegrationTest {
     @Test
     @Transactional
     public void createNewUser() {	
-	User basicUser = createUser(testName);
+	User user = createUser(testName);
+	Optional<User> newlyCreatedUser = userRepository.findById(user.getId());
 	
-	Optional<User> newlyCreatedUser = userRepository.findById(basicUser.getId());
 	assertThat(newlyCreatedUser.isPresent()).isTrue();
 	assertThat(newlyCreatedUser.get().getId() != 0).isTrue();
 	assertThat(newlyCreatedUser.get().getPlan()).isNotNull();
@@ -72,10 +72,22 @@ public class UserIntegrationTest extends AbstractIntegrationTest {
     @Test
     @Transactional
     public void deleteUser() {	
-	User basicUser = createUser(testName);
-	userRepository.delete(basicUser);
-	Optional<User> deletedUser = userRepository.findById(basicUser.getId());
+	User user = createUser(testName);
+	
+	userRepository.delete(user);
+	Optional<User> deletedUser = userRepository.findById(user.getId());
+	
 	assertThat(deletedUser.isPresent()).isFalse();
+    }
+    
+    @Test
+    @Transactional
+    public void getUserByEmail() {	
+	User user = createUser(testName);
+	
+	Optional<User> foundUser = userRepository.findByEmail(user.getEmail());
+	assertThat(foundUser.isPresent()).isTrue();
+	assertThat(foundUser.get().getId()).isNotNull();
     }
     
 }
