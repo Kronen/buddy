@@ -13,17 +13,17 @@ import com.kronen.buddy.backend.persistence.repositories.UserRepository;
 @Service
 @Transactional(readOnly = true)
 public class PasswordResetTokenService {
-        
+
     private static final Logger LOG = LoggerFactory.getLogger(PasswordResetTokenService.class);
 
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
-    
+
     @Value("${token.expiration.minutes}")
     private int tokenExpirationInMinutes;
-    
-    
+
+
 }

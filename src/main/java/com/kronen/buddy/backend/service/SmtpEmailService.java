@@ -11,18 +11,17 @@ import org.springframework.stereotype.Service;
 @Service
 @Profile("prod")
 public class SmtpEmailService extends AbstractEmailService {
-        
+
     private static final Logger LOG = LoggerFactory.getLogger(SmtpEmailService.class);
-    
+
     @Autowired
     MailSender mailSender;
 
     @Override
     public void sendGenericEmailMessage(SimpleMailMessage message) {
-	LOG.debug("Sending email for {}",  message);
-	mailSender.send(message);
-	LOG.info("Email sent.");
-	
+        LOG.debug("Sending email for {}", message);
+        mailSender.send(message);
+        LOG.info("Email sent.");
     }
 
 }

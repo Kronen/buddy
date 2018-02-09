@@ -16,24 +16,24 @@ import com.kronen.buddy.web.domain.frontend.FeedbackBean;
 public class ContactController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ContactController.class);
-    
+
     public static final String MODEL_FEEDBACK = "feedback";
-    
+
     public static final String CONTACT_US_VIEW_NAME = "contact/contact";
-    
+
     @Autowired
     private EmailService emailService;
-    
+
     @RequestMapping(value = "/contact", method = RequestMethod.GET)
-    public String contactGet(ModelMap model) {	
-	model.addAttribute(MODEL_FEEDBACK, new FeedbackBean());
-	return CONTACT_US_VIEW_NAME;
+    public String contactGet(ModelMap model) {
+        model.addAttribute(MODEL_FEEDBACK, new FeedbackBean());
+        return CONTACT_US_VIEW_NAME;
     }
-    
+
     @RequestMapping(value = "/contact", method = RequestMethod.POST)
-    public String contactPost(@ModelAttribute(MODEL_FEEDBACK) FeedbackBean feedback, ModelMap model) {	
-	LOG.debug("Feedback bean content {}", feedback);
-	emailService.sendFeedbackEmail(feedback);
-	return CONTACT_US_VIEW_NAME;
+    public String contactPost(@ModelAttribute(MODEL_FEEDBACK) FeedbackBean feedback, ModelMap model) {
+        LOG.debug("Feedback bean content {}", feedback);
+        emailService.sendFeedbackEmail(feedback);
+        return CONTACT_US_VIEW_NAME;
     }
 }

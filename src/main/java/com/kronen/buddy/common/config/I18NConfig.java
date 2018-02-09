@@ -9,11 +9,11 @@ public class I18NConfig {
 
     @Bean(name = "messageSource")
     public ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource() {
-	ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-	messageSource.setBasenames("classpath:i18n/messages");
-	messageSource.setDefaultEncoding("UTF-8");
-	messageSource.setCacheSeconds(1800);
-	return messageSource;
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasenames("classpath:i18n/messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setCacheSeconds(1800);
+        return messageSource;
     }
 
 }

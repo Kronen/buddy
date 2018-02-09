@@ -8,6 +8,6 @@ public class CopyController {
 
     @RequestMapping("/about")
     public String about() {
-	return "copy/about";
+        return "copy/about";
     }
 }

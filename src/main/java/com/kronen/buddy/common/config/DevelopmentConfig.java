@@ -8,5 +8,5 @@ import org.springframework.context.annotation.PropertySource;
 @Profile("dev")
 @PropertySource("file:///${user.home}/.buddy/application-dev.properties")
 public class DevelopmentConfig {
-    
+
 }

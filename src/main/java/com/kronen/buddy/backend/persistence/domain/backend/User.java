@@ -24,9 +24,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements Serializable, UserDetails {
 
     private static final long serialVersionUID = 1L;
-    
+
     public User() {
-	super();
+        super();
     }
 
     @Id
@@ -35,80 +35,80 @@ public class User implements Serializable, UserDetails {
 
     @Column(unique = true)
     private String username;
-    
+
     private String password;
-    
+
     @Column(unique = true)
     private String email;
-    
+
     @Column(name = "first_name")
     private String firstName;
-    
+
     @Column(name = "last_name")
     private String lastName;
-    
+
     @Column(name = "phone_number")
     private String phoneNumber;
-    
+
     @Length(max = 500)
     private String description;
-    
+
     private String country;
-    
+
     @Column(name = "profile_image_url")
     private String profileImageUrl;
-    
+
     @Column(name = "stripe_customer_id")
     private String stripeCustomerId;
-    
+
     private boolean enabled;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_id")
     private Plan plan;
-    
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<UserRole> userRoles = new HashSet<>();
-    
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<PasswordResetToken> passwordResetTokens = new HashSet<>();
-    
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-	Set<GrantedAuthority> authorities = new HashSet<>();
-	userRoles.forEach(ur -> authorities.add(new Authority(ur.getRole().getName())));
-	return authorities;
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        userRoles.forEach(ur -> authorities.add(new Authority(ur.getRole().getName())));
+        return authorities;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-	return true;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-	return true;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-	return true;
+        return true;
     }
 
     public Long getId() {
-	return id;
+        return id;
     }
 
     public void setId(Long id) {
-	this.id = id;
+        this.id = id;
     }
 
     public String getUsername() {
-	return username;
+        return username;
     }
 
     public void setUsername(String name) {
-	this.username = name;
+        this.username = name;
     }
 
     public String getPassword() {
@@ -206,7 +206,7 @@ public class User implements Serializable, UserDetails {
     public void setUserRoles(Set<UserRole> userRoles) {
         this.userRoles = userRoles;
     }
-    
+
     public Set<PasswordResetToken> getPasswordResetTokens() {
         return passwordResetTokens;
     }
@@ -217,27 +217,27 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result + ((id == null) ? 0 : id.hashCode());
-	return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj)
-	    return true;
-	if (obj == null)
-	    return false;
-	if (getClass() != obj.getClass())
-	    return false;
-	User other = (User) obj;
-	if (id == null) {
-	    if (other.id != null)
-		return false;
-	} else if (!id.equals(other.id))
-	    return false;
-	return true;
+        if(this == obj)
+            return true;
+        if(obj == null)
+            return false;
+        if(getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        if(id == null) {
+            if(other.id != null)
+                return false;
+        } else if(!id.equals(other.id))
+            return false;
+        return true;
     }
-    
+
 }

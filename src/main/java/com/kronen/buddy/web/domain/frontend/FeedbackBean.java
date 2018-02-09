@@ -3,23 +3,23 @@ package com.kronen.buddy.web.domain.frontend;
 import java.io.Serializable;
 
 public class FeedbackBean implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
 
     private String email;
-    
+
     private String firstName;
-    
+
     private String lastName;
-    
+
     private String feedback;
-    
+
     public String getEmail() {
-	return this.email;
+        return this.email;
     }
-    
+
     public void setEmail(String email) {
-	this.email = email;
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -36,8 +36,8 @@ public class FeedbackBean implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    } 
-    
+    }
+
     public String getFeedback() {
         return feedback;
     }
@@ -48,9 +48,9 @@ public class FeedbackBean implements Serializable {
 
     @Override
     public String toString() {
-	return "FeedbackBean [email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", feedback="
-		+ feedback + "]";
+        return "FeedbackBean [email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", feedback="
+                + feedback + "]";
     }
-    
-    
+
+
 }

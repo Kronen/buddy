@@ -19,39 +19,39 @@ import com.kronen.buddy.common.enums.PlansEnum;
 @Service
 @Transactional(readOnly = true)
 public class UserService {
-    
+
     @Autowired
     private RoleRepository roleRepository;
-    
+
     @Autowired
     private PlanRepository planRepository;
-    
+
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-    
+
     @Transactional
     public User createUser(User user, PlansEnum plansEnum, Set<UserRole> userRoles) {
-	String encriptedPassword = passwordEncoder.encode(user.getPassword());
-	user.setPassword(encriptedPassword);
-	
-	Plan plan = new Plan(plansEnum);
-	if(!planRepository.existsById(plansEnum.getId())) {
-	    plan = planRepository.save(plan);
-	}
-	
-	user.setPlan(plan);
-	for(UserRole userRole : userRoles) {
-	    Role role = roleRepository.save(userRole.getRole());
-	    userRole.setRole(role);
-	}
-	
-	user.getUserRoles().addAll(userRoles);
-	
-	userRepository.save(user);
-	
-	return user;	
+        String encriptedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encriptedPassword);
+
+        Plan plan = new Plan(plansEnum);
+        if(!planRepository.existsById(plansEnum.getId())) {
+            plan = planRepository.save(plan);
+        }
+
+        user.setPlan(plan);
+        for(UserRole userRole : userRoles) {
+            Role role = roleRepository.save(userRole.getRole());
+            userRole.setRole(role);
+        }
+
+        user.getUserRoles().addAll(userRoles);
+
+        userRepository.save(user);
+
+        return user;
     }
 }

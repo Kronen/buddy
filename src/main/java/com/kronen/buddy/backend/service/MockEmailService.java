@@ -14,8 +14,8 @@ public class MockEmailService extends AbstractEmailService {
 
     @Override
     public void sendGenericEmailMessage(SimpleMailMessage message) {
-	LOG.debug("Simulating an email service...");
-	LOG.info(message.toString());
+        LOG.debug("Simulating an email service...");
+        LOG.info(message.toString());
     }
         
 }
