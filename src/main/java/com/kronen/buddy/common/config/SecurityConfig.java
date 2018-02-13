@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
 
+import com.kronen.buddy.web.controllers.ForgotMyPasswordController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/about/**",
             "/contact/**",
             "/error/**/*",
-            "/h2-console/**"
+            "/h2-console/**",
+            ForgotMyPasswordController.FORGOT_PASSWORD_URL_MAPPING
     };
 
     private static final String SALT = "rjge@{sdl¡ç-m4hjrie";

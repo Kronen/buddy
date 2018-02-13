@@ -59,10 +59,8 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     public void testCreateNewUser() {
         User user = createUser(testName);
-
         Optional<User> newlyCreatedUser = userRepository.findById(user.getId());
 
         assertThat(newlyCreatedUser.isPresent()).isTrue();
