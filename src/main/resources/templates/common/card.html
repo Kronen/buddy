@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="common-card">
+    <div class="card" th:classappend="${color}">
+        <div class="row">
+            <div class="col s12 m10">
+                <div class="card-content white-text">
+                    <p th:text="#{text}"
+                </div>
+            </div>
+            <div class="col s12 m2">
+                <i class="material-icons icon_style" id="alert-logout-close">close</i>
+            </div>
+        </div>
+    </div>
+</div>
