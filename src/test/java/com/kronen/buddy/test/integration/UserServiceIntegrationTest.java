@@ -24,24 +24,16 @@ import com.kronen.buddy.common.utils.UserUtils;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserServiceIntegrationTest {
-    
-    @Autowired
-    private UserService userService;
-    
-    @Rule public TestName testName = new TestName();
-        
+public class UserServiceIntegrationTest extends AbstractServiceIntegrationTest {
+
+    @Rule
+    public TestName testName = new TestName();
+
     @Test
     public void createNewUser() {
-	String username = testName.getMethodName();
-	String email = testName.getMethodName() + "@buddy.com";
-	
-	User basicUser = UserUtils.createBasicUser(username, email);	
-	Set<UserRole> userRoles = new HashSet<>();
-	userRoles.add(new UserRole(basicUser, new Role(RolesEnum.BASIC)));
-	
-	User user = userService.createUser(basicUser, PlansEnum.BASIC, userRoles);
-	assertThat(user).isNotNull();
-	assertThat(user.getId()).isNotNull();
+        User user = createUser(testName);
+        assertThat(user).isNotNull();
+        assertThat(user.getId()).isNotNull();
     }
+
 }

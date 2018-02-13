@@ -2,6 +2,8 @@ package com.kronen.buddy.backend.service;
 
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ import com.kronen.buddy.common.enums.PlansEnum;
 @Service
 @Transactional(readOnly = true)
 public class UserService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private RoleRepository roleRepository;
@@ -53,5 +57,11 @@ public class UserService {
         userRepository.save(user);
 
         return user;
+    }
+
+    public void updateUserPassword(Long userId, String password) {
+        password = passwordEncoder.encode(password);
+        userRepository.updateUserPassword(userId, password);
+        LOG.debug("Password updated successfully for user id {]", userId);
     }
 }

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,68 +27,84 @@ import com.kronen.buddy.common.enums.RolesEnum;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
-    
-    @Rule public TestName testName = new TestName();
-    
+
+    @Rule
+    public TestName testName = new TestName();
+
     @Before
     public void init() {
-	assertNotNull(planRepository);
-	assertNotNull(roleRepository);
-	assertNotNull(userRepository);
+        assertNotNull(planRepository);
+        assertNotNull(roleRepository);
+        assertNotNull(userRepository);
     }
-    
+
     @Test
-    public void createNewPlan() {
-	Plan basicPlan = createPlan();
-	planRepository.save(basicPlan);
-	Optional<Plan> retrievedPlan = planRepository.findById(PlansEnum.BASIC.getId());
-	assertThat(retrievedPlan.isPresent()).isTrue();
+    public void testCreateNewPlan() {
+        Plan basicPlan = createPlan();
+
+        planRepository.save(basicPlan);
+        Optional<Plan> retrievedPlan = planRepository.findById(PlansEnum.BASIC.getId());
+
+        assertThat(retrievedPlan.isPresent()).isTrue();
     }
-    
+
     @Test
-    public void createNewRole() {
-	Role basicRole = createRole(RolesEnum.BASIC);
-	roleRepository.save(basicRole);
-	Optional<Role> retrievedRole = roleRepository.findById(RolesEnum.BASIC.getId());
-	assertThat(retrievedRole.isPresent()).isTrue();
+    public void testCreateNewRole() {
+        Role basicRole = createRole(RolesEnum.BASIC);
+
+        roleRepository.save(basicRole);
+        Optional<Role> retrievedRole = roleRepository.findById(RolesEnum.BASIC.getId());
+
+        assertThat(retrievedRole.isPresent()).isTrue();
     }
-    
-    @Test
-    @Transactional
-    public void createNewUser() {	
-	User user = createUser(testName);
-	Optional<User> newlyCreatedUser = userRepository.findById(user.getId());
-	
-	assertThat(newlyCreatedUser.isPresent()).isTrue();
-	assertThat(newlyCreatedUser.get().getId() != 0).isTrue();
-	assertThat(newlyCreatedUser.get().getPlan()).isNotNull();
-	Set<UserRole> newlyCreatedUserUserRoles = newlyCreatedUser.get().getUserRoles();
-	assertThat(newlyCreatedUserUserRoles).isNotNull();
-	for(UserRole ur : newlyCreatedUserUserRoles) {
-	    assertThat(ur.getRole()).isNotNull();
-	    assertThat(ur.getRole().getId()).isNotNull();
-	}
-    }
-    
+
     @Test
     @Transactional
-    public void deleteUser() {	
-	User user = createUser(testName);
-	
-	userRepository.delete(user);
-	Optional<User> deletedUser = userRepository.findById(user.getId());
-	
-	assertThat(deletedUser.isPresent()).isFalse();
+    public void testCreateNewUser() {
+        User user = createUser(testName);
+
+        Optional<User> newlyCreatedUser = userRepository.findById(user.getId());
+
+        assertThat(newlyCreatedUser.isPresent()).isTrue();
+        assertThat(newlyCreatedUser.get().getId() != 0).isTrue();
+        assertThat(newlyCreatedUser.get().getPlan()).isNotNull();
+        Set<UserRole> newlyCreatedUserUserRoles = newlyCreatedUser.get().getUserRoles();
+        assertThat(newlyCreatedUserUserRoles).isNotNull();
+        for(UserRole ur : newlyCreatedUserUserRoles) {
+            assertThat(ur.getRole()).isNotNull();
+            assertThat(ur.getRole().getId()).isNotNull();
+        }
     }
-    
+
     @Test
-    @Transactional
-    public void getUserByEmail() {	
-	User user = createUser(testName);
-	
-	Optional<User> foundUser = userRepository.findByEmail(user.getEmail());
-	assertThat(foundUser.isPresent()).isTrue();
-	assertThat(foundUser.get().getId()).isNotNull();
+    public void testDeleteUser() {
+        User user = createUser(testName);
+
+        userRepository.delete(user);
+        Optional<User> deletedUser = userRepository.findById(user.getId());
+
+        assertThat(deletedUser.isPresent()).isFalse();
     }
-    
+
+    @Test
+    public void testGetUserByEmail() {
+        User user = createUser(testName);
+
+        Optional<User> foundUser = userRepository.findByEmail(user.getEmail());
+
+        assertThat(foundUser.isPresent()).isTrue();
+        assertThat(foundUser.get().getId()).isNotNull();
+    }
+
+    @Test
+    public void testUpdateUserPassword() {
+        User user = createUser(testName);
+        String newPassword = UUID.randomUUID().toString();
+
+        userRepository.updateUserPassword(user.getId(), newPassword);
+        Optional<User> userRetrieved = userRepository.findById(user.getId());
+
+        assertThat(userRetrieved.get().getPassword()).isEqualTo(newPassword);
+    }
+
 }
