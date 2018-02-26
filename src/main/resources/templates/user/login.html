@@ -59,11 +59,12 @@
 							<div class="col s12 m6">
 								<div class="login-submit">
 									<button type="submit" th:utext="#{navbar.login.text}" class="btn waves-effect waves-light"></button>
+									<a th:href="@{/forgotmypassword}" th:text="#{login.forgot.password.text}"></a>
 								</div>
 							</div>
 						</div>
 					</form>
-					<a th:href="@{/forgotmypassword}" th:text="#{login.forgot.password.text}"></a>
+
 				</div>
 			</div>
 		</div>
