@@ -1,4 +1,4 @@
-package com.kronen.buddy.web.i18n;
+package com.kronen.buddy.backend.service;
 
 import java.util.Locale;
 

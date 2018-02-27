@@ -1,12 +1,11 @@
 package com.kronen.buddy.test.integration;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-
+import com.kronen.buddy.backend.persistence.domain.backend.Plan;
+import com.kronen.buddy.backend.persistence.domain.backend.Role;
+import com.kronen.buddy.backend.persistence.domain.backend.User;
+import com.kronen.buddy.backend.persistence.domain.backend.UserRole;
+import com.kronen.buddy.common.enums.PlansEnum;
+import com.kronen.buddy.common.enums.RolesEnum;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,14 +13,13 @@ import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.kronen.buddy.backend.persistence.domain.backend.Plan;
-import com.kronen.buddy.backend.persistence.domain.backend.Role;
-import com.kronen.buddy.backend.persistence.domain.backend.User;
-import com.kronen.buddy.backend.persistence.domain.backend.UserRole;
-import com.kronen.buddy.common.enums.PlansEnum;
-import com.kronen.buddy.common.enums.RolesEnum;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertNotNull;
 
 
 @RunWith(SpringRunner.class)

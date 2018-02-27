@@ -1,6 +1,11 @@
 package com.kronen.buddy.common.utils;
 
 import com.kronen.buddy.backend.persistence.domain.backend.User;
+import com.kronen.buddy.web.controllers.ForgotMyPasswordController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponents;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class UserUtils {
 
@@ -28,5 +33,18 @@ public class UserUtils {
         user.setDescription("A basic user");
         user.setProfileImageUrl("https://www.images.com/basic_user.png");
         return user;
+    }
+
+    public static String createPasswordResetUrl(HttpServletRequest request, long userId, String token) {
+        UriComponents uc =
+                ServletUriComponentsBuilder
+                        .fromRequest(request)
+                        .replacePath(ForgotMyPasswordController.CHANGE_PASSWORD_PATH)
+                        .queryParam("id", userId)
+                        .queryParam("token", token)
+                        .build()
+                        .encode();
+
+        return uc.toString();
     }
 }

@@ -1,9 +1,6 @@
 package com.kronen.buddy.common.config;
 
-import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.List;
-
+import com.kronen.buddy.backend.service.UserSecurityService;
 import com.kronen.buddy.web.controllers.ForgotMyPasswordController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.kronen.buddy.backend.service.UserSecurityService;
+import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -37,7 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/contact/**",
             "/error/**/*",
             "/h2-console/**",
-            ForgotMyPasswordController.FORGOT_PASSWORD_URL_MAPPING
+            ForgotMyPasswordController.FORGOT_PASSWORD_PATH,
+            ForgotMyPasswordController.CHANGE_PASSWORD_PATH
     };
 
     private static final String SALT = "rjge@{sdl¡ç-m4hjrie";

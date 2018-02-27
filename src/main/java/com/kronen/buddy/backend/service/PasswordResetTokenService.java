@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -55,7 +56,7 @@ public class PasswordResetTokenService {
         Optional<User> user = userRepository.findByEmail(email);
 
         if(user.isPresent()) {
-            String token = UUID.randomUUID().toString();
+            String token = Base64.getEncoder().encodeToString(UUID.randomUUID().toString().getBytes());
             LocalDateTime now = LocalDateTime.now(Clock.systemUTC());
             passwordResetToken = Optional.of(new PasswordResetToken(token, user.get(), now, tokenExpirationInMinutes));
             passwordResetToken = Optional.of(passwordResetTokenRepository.save(passwordResetToken.get()));
