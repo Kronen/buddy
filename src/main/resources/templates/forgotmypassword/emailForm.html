@@ -24,14 +24,14 @@
         </div>
         <div class="row">
             <div class="col m6 offset-m3">
-                <h4 class="center-align" th:text="#{forgotmypassword.fill.form.below}"></h4>
+                <h4 class="center-align" th:text="#{forgotmypassword.fill.email.below}"></h4>
 
                 <form id="forgotPasswordForm" th:action="@{/forgotmypassword}" method="POST">
                     <!-- Email -->
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="email" type="email" name="email" class="validate" />
-                            <label for="email" th:text="#{contact.form.email}"></label>
+                            <label for="email" th:text="#{contact.form.email}" data-error="wrong"></label>
                         </div>
                     </div>
 

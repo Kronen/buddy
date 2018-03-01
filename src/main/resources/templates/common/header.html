@@ -9,18 +9,20 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />	
 	
 	<!--Materialize-->
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.3/css/materialize.css" rel="stylesheet" media="screen" />
-	
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/css/materialize.min.css" rel="stylesheet" media="screen" />
+
 	<!-- Custom styles for this template -->
-	<link th:href="@{/css/styles.css}" rel="stylesheet" media="screen"/>
+	<link th:href="@{/css/buddy.css}" rel="stylesheet" media="screen"/>
 </head>
 
 
 <!--  Scripts-->
 <div th:fragment="before-body-scripts">
 	<script th:src="@{webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.3/js/materialize.min.js"></script>
-	<script th:src="@{/js/scripts.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+	<script th:src="@{/js/buddy.js}"></script>
 </div>
 
 </html>
