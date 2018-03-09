@@ -57,6 +57,7 @@ public class UserUtils {
         user.setLastName(frontendPayload.getLastName());
         user.setEmail(frontendPayload.getEmail());
         user.setPhoneNumber(frontendPayload.getPhoneNumber());
+        user.setCountry(frontendPayload.getCountry());
         user.setDescription(frontendPayload.getDescription());
         user.setEnabled(true);
 
