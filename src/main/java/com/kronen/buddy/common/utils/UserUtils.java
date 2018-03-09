@@ -2,6 +2,7 @@ package com.kronen.buddy.common.utils;
 
 import com.kronen.buddy.backend.persistence.domain.backend.User;
 import com.kronen.buddy.web.controllers.ForgotMyPasswordController;
+import com.kronen.buddy.web.domain.frontend.BasicAccountPayload;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
 
@@ -46,5 +47,19 @@ public class UserUtils {
                         .encode();
 
         return uc.toString();
+    }
+
+    public static <T extends BasicAccountPayload> User fromWebUserToDomainUser(T frontendPayload) {
+        User user = new User();
+        user.setUsername(frontendPayload.getUsername());
+        user.setPassword(frontendPayload.getPassword());
+        user.setFirstName(frontendPayload.getFirstName());
+        user.setLastName(frontendPayload.getLastName());
+        user.setEmail(frontendPayload.getEmail());
+        user.setPhoneNumber(frontendPayload.getPhoneNumber());
+        user.setDescription(frontendPayload.getDescription());
+        user.setEnabled(true);
+
+        return user;
     }
 }
