@@ -14,7 +14,7 @@
 					<h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
 				</div>
 				<div class="row center">
-					<a href="http://materializecss.com/getting-started.html" id="download-button"
+					<a href="/about" id="download-button"
 						class="btn-large waves-effect waves-light orange">Get Started</a>
 				</div>
 				<br /> <br />
@@ -40,14 +40,18 @@
 						<div class="card-panel">
 							<h3 class="center-align" th:text="#{index.basic.membership}"></h3>
 							<h5 th:text="#{index.h4.basic.membership}"></h5>
-							<br /> <a class="waves-effect waves-light btn" th:text="#{index.basic.signup.button}"></a>
+							<br /> <a class="waves-effect waves-light btn"
+									  th:href="@{/signUp?planId=1}"
+									  th:text="#{index.basic.signup.button}"></a>
 						</div>
 					</div>
 					<div class="col s6">
 						<div class="card-panel">
 							<h3 class="center-align" th:text="#{index.pro.membership}"></h3>
 							<h5 th:text="#{index.h4.pro.membership}"></h5>
-							<br /> <a class="waves-effect waves-light btn" th:text="#{index.pro.signup.button}"></a>
+							<br /> <a class="waves-effect waves-light btn"
+									  th:href="@{/signUp?planId=2}"
+									  th:text="#{index.pro.signup.button}"></a>
 						</div>
 					</div>
 				</div>

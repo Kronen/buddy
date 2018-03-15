@@ -1,17 +1,23 @@
 $(document).ready(main);
 
 function main() {
-	registerSideNav();
-	registerCloseAlert();
+	initSideNav();
+	initCloseAlert();
+    initCountrySelect();
 
 	validateForms();
 }
 
-function registerSideNav() {
+function initSideNav() {
 	$(".sidenav").sidenav();
 }
 
-function registerCloseAlert() {
+function initCountrySelect() {
+    // Initialize country select in sign up form
+    $('#country').formSelect();
+}
+
+function initCloseAlert() {
 	$('#alert-error-close').click(function() {
 		$("#alert-error").fadeOut("slow", function() {});
 	});
@@ -21,6 +27,10 @@ function registerCloseAlert() {
 }
 
 function validateForms() {
+    $.validator.addMethod('phone', function (value, element) {
+        return this.optional(element) || /^\+?[0-9\-\(\)\s]{7,16}$/.test(value);
+    }, "Please enter a valid phone number");
+
     $.validator.setDefaults({
         errorClass: 'invalid',
         validClass: "valid",
@@ -54,8 +64,36 @@ function validateForms() {
             },
             confirmPassword: {
                 equalTo: "The password and its confirmation are not the same"
-            }
-        }
+            },
+            description: {
+                maxlength: $.validator.format("Please enter no more than {0} characters")
+            }        }
+    });
+    $("#signUpForm").validate({
+        rules: {
+            username: {
+                required: true
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            firstName: {
+                required: true
+            },
+            lastName: {
+                required: true
+            },
+            password: "required",
+            confirmPassword: {
+                required: true,
+                equalTo: "#password"
+            },
+            description: {
+                maxlength: 300
+            },
+            phoneNumber: 'phone'
+        },
     });
     $("#contactForm").validate({
         rules: {
@@ -92,6 +130,4 @@ function validateForms() {
             }
         }
     });
-
-
 }

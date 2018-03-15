@@ -4,16 +4,23 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    background: #136a8a; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #136a8a, #267871); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #136a8a, #267871); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 main {
     flex: 1 0 auto;
 }
 
-/* login submit button */
-.login-submit {
-    padding-left: 12px;
-    padding-bottom: 10px;
+form {
+    background: #E0E0E0;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.card {
+    border-radius: 20px;
 }
 
 /* alert close icon */
@@ -30,7 +37,19 @@ main {
     cursor: pointer;
 }
 
-#loginForm input {
-    color: #e4e4e4;
+/* Login Form */
+#loginForm {
+    border-radius: 0 0 20px 20px;
+}
+
+/* login submit button */
+.login-submit {
+    padding-left: 12px;
+    padding-bottom: 10px;
+}
+
+/* Signup Form */
+.fieldError {
+    border: 2px solid red;
 }
 

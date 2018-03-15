@@ -2,6 +2,7 @@ package com.kronen.buddy.common.config;
 
 import com.kronen.buddy.backend.service.UserSecurityService;
 import com.kronen.buddy.web.controllers.ForgotMyPasswordController;
+import com.kronen.buddy.web.controllers.SignUpController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/error/**/*",
             "/h2-console/**",
             ForgotMyPasswordController.FORGOT_PASSWORD_PATH,
-            ForgotMyPasswordController.CHANGE_PASSWORD_PATH
+            ForgotMyPasswordController.CHANGE_PASSWORD_PATH,
+            SignUpController.SIGNUP_PATH
     };
 
     private static final String SALT = "rjge@{sdl¡ç-m4hjrie";
