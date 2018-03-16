@@ -10,33 +10,29 @@
         <div class="row">
             <div class="col m6 offset-m3">
                 <div th:if="${signedUp == 'true'}" class="row">
-                    <div class="col s12 m6 offset-m3">
-                        <div class="card green">
-                            <div class="row">
-                                <div class="col s12 m10">
-                                    <div class="card-content white-text">
-                                        <p th:text="#{signup.profile.created.success}" />
-                                    </div>
+                    <div class="card green">
+                        <div class="row">
+                            <div class="col s12 m10">
+                                <div class="card-content white-text">
+                                    <p th:text="#{signup.profile.created.success}" />
                                 </div>
-                                <div class="col s12 m2">
-                                    <i class="material-icons icon_style" id="alert-signedUp-close">close</i>
-                                </div>
+                            </div>
+                            <div class="col s12 m2">
+                                <i class="material-icons icon_style" id="alert-signedUp-close">close</i>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div th:if="${signedUp == 'false'}" class="row" >
-                    <div class="col s12 m6 offset-m3">
-                        <div class="card red darken-1">
-                            <div class="row">
-                                <div class="col s12 m10">
-                                    <div class="card-content white-text">
-                                        <p th:text="#{message}" />
-                                    </div>
+                    <div class="card red darken-1">
+                        <div class="row">
+                            <div class="col s12 m10">
+                                <div class="card-content white-text">
+                                    <p th:text="${errorMessage}" />
                                 </div>
-                                <div class="col s12 m2">
-                                    <i class="material-icons icon_style" id="alert-signedUp2-close">close</i>
-                                </div>
+                            </div>
+                            <div class="col s12 m2">
+                                <i class="material-icons icon_style" id="alert-signedUp2-close">close</i>
                             </div>
                         </div>
                     </div>
@@ -48,7 +44,7 @@
                     th:text="#{signup.h1.pro.profile}"></h4>
 
                 <form id="signUpForm" th:action="@{/signUp}"
-                      th:object="${__${T(com.kronen.buddy.web.controllers.SignUpController).PAYLOAD_MODEL_KEY_NAME}__}"
+                      th:object="${__${T(com.kronen.buddy.web.controllers.SignUpController).PAYLOAD_MODEL}__}"
                       method="POST" enctype="multipart/form-data">
                     <div th:if="${param.containsKey('planId')}">
                         <input id="planId" type="hidden" name="planId"
@@ -132,7 +128,6 @@
         </div>
     </div>
 </main>
-<div th:replace="common/footer :: common-footer" />
 
 <div th:replace="common/header :: before-body-scripts" />
 </body>

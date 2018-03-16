@@ -1,14 +1,5 @@
 package com.kronen.buddy.backend.service;
 
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.kronen.buddy.backend.persistence.domain.backend.Plan;
 import com.kronen.buddy.backend.persistence.domain.backend.Role;
 import com.kronen.buddy.backend.persistence.domain.backend.User;
@@ -17,6 +8,15 @@ import com.kronen.buddy.backend.persistence.repositories.PlanRepository;
 import com.kronen.buddy.backend.persistence.repositories.RoleRepository;
 import com.kronen.buddy.backend.persistence.repositories.UserRepository;
 import com.kronen.buddy.common.enums.PlansEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)
@@ -59,9 +59,19 @@ public class UserService {
         return user;
     }
 
+    @Transactional
     public void updateUserPassword(Long userId, String password) {
         password = passwordEncoder.encode(password);
         userRepository.updateUserPassword(userId, password);
         LOG.debug("Password updated successfully for user id {]", userId);
     }
+
+    public Optional<User> findByUserName(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
 }
