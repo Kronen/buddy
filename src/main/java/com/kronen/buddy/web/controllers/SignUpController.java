@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.sql.SQLException;
@@ -63,6 +64,7 @@ public class SignUpController {
 
     @PostMapping(value = SIGNUP_PATH)
     public String signUpPost(@RequestParam(name = "planId", required = false) int planId,
+                             @RequestParam(name = "file", required = false) MultipartFile file,
                              @ModelAttribute(PAYLOAD_MODEL) @Valid ProAccountPayload payload,
                              ModelMap model) throws SQLException {
         if(planId != PlansEnum.BASIC.getId() && planId != PlansEnum.PRO.getId()) {
@@ -70,7 +72,6 @@ public class SignUpController {
             model.addAttribute(ERROR_MESSAGE_KEY, "Plan id does not exist");
             return SUBSCRIPTION_VIEW_NAME;
         }
-
         checkForDuplicates(payload, model);
 
         boolean duplicates = false;
@@ -101,10 +102,20 @@ public class SignUpController {
         LOG.debug("Transforming user payload into User domain object");
         User user = UserUtils.fromWebUserToDomainUser(payload);
 
+        if(file != null && !file.isEmpty()) {
+            String profileImageUrl = null;
+            if(profileImageUrl != null) {
+                user.setProfileImageUrl(profileImageUrl);
+            } else {
+                LOG.warn("There was a problem uploading the profile image to the images server. " +
+                        "The user profile will be created without the image");
+            }
+        }
+
         // Sets the Plan and the Roles (depending on the choice plan)
         Optional<Plan> selectedPlan = planService.findByPlanId(planId);
-        if(selectedPlan.isPresent()) {
-            LOG.error("The plan id {} could not be found. Throwing exception");
+        if(!selectedPlan.isPresent()) {
+            LOG.error("The plan id {} could not be found.", planId);
             model.addAttribute(SIGNED_UP_MESSAGE_KEY, "false");
             model.addAttribute(ERROR_MESSAGE_KEY, "Plan id not found");
         }

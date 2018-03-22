@@ -13,7 +13,7 @@ main {
     flex: 1 0 auto;
 }
 
-form {
+main form {
     background: #E0E0E0;
     padding: 20px;
     border-radius: 20px;
