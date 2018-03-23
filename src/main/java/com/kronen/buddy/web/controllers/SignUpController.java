@@ -4,6 +4,7 @@ import com.kronen.buddy.backend.persistence.domain.backend.Plan;
 import com.kronen.buddy.backend.persistence.domain.backend.Role;
 import com.kronen.buddy.backend.persistence.domain.backend.User;
 import com.kronen.buddy.backend.persistence.domain.backend.UserRole;
+import com.kronen.buddy.backend.service.LocalStorageService;
 import com.kronen.buddy.backend.service.PlanService;
 import com.kronen.buddy.backend.service.UserService;
 import com.kronen.buddy.common.enums.PlansEnum;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -48,6 +50,9 @@ public class SignUpController {
     @Autowired
     public PlanService planService;
 
+    @Autowired
+    public LocalStorageService localStorageService;
+
     @GetMapping(value = SIGNUP_PATH)
     public String signUpGet(@RequestParam("planId") Optional<Integer> planId, ModelMap model) {
 
@@ -64,9 +69,10 @@ public class SignUpController {
 
     @PostMapping(value = SIGNUP_PATH)
     public String signUpPost(@RequestParam(name = "planId", required = false) int planId,
-                             @RequestParam(name = "file", required = false) MultipartFile file,
+                             @RequestParam(name = "file", required = false) MultipartFile uploadedFile,
                              @ModelAttribute(PAYLOAD_MODEL) @Valid ProAccountPayload payload,
-                             ModelMap model) throws SQLException {
+                             ModelMap model)
+            throws SQLException, IOException {
         if(planId != PlansEnum.BASIC.getId() && planId != PlansEnum.PRO.getId()) {
             model.addAttribute(SIGNED_UP_MESSAGE_KEY, "false");
             model.addAttribute(ERROR_MESSAGE_KEY, "Plan id does not exist");
@@ -102,10 +108,10 @@ public class SignUpController {
         LOG.debug("Transforming user payload into User domain object");
         User user = UserUtils.fromWebUserToDomainUser(payload);
 
-        if(file != null && !file.isEmpty()) {
-            String profileImageUrl = null;
-            if(profileImageUrl != null) {
-                user.setProfileImageUrl(profileImageUrl);
+        if(uploadedFile != null && !uploadedFile.isEmpty()) {
+            String profileImagePath = localStorageService.storeProfileImage(uploadedFile, user.getUsername());
+            if(profileImagePath != null) {
+                user.setProfileImageUrl(profileImagePath);
             } else {
                 LOG.warn("There was a problem uploading the profile image to the images server. " +
                         "The user profile will be created without the image");

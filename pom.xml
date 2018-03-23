@@ -88,6 +88,13 @@
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
 
+		<!-- Apache Commons -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
+
 		<!-- Testing -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
